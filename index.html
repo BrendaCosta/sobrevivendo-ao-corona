@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sobrevivendo ao Corona</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="panel scores">
+            <div class="score">
+                <h1>Ser Humano</h1>
+                <div class="life-bar">
+                    <div class="life"
+                    :class="{danger: playerLife < 20}"
+                    :style="{width: playerLife + '%'}"></div>
+                </div>
+                <div>{{playerLife}}%</div>
+            </div>
+
+            <div class="score">
+                <h1>Coronavirus</h1>
+                <div class="life-bar">
+                    <div class="life"
+                    :class="{danger: monsterLife < 20}"
+                    :style="{width: monsterLife + '%'}"></div>
+                </div>
+                <div>{{monsterLife}}%</div>
+            </div>
+
+        </div>
+        <div v-if="hasResult" class="panel result" >
+            <div v-if= "monsterLife == 0" class="win">Você sobreviveu a pandemia! :) </div>
+            <div v-else class="lose">Você morreu :X</div>
+
+        </div>
+        <div class="panel buttons">
+
+            <template v-if="running">
+            <button @click="attack(false)"
+                class="btn isolamento">Ficar na Rua</button>
+
+            <button  @click="attack(true)"
+                class="btn quarentena">Quarentena</button>
+
+            <button @click="healAndHurt"
+                class="btn hospital">Isolamento Social</button>
+
+            <button @click="running =false"
+                class="btn desisto">Desistir</button>
+
+        </template>
+
+            <button v-else @click="startGame" 
+                class="btn new-game">Iniciar Jogo</button>
+
+        </div>
+        <div v-if="logs.length"
+            class="panel logs">
+                <ul>
+                    <li v-for="log in logs"
+                        :class="log.cls"
+                        class="log">{{ log.text }}</li>
+                </ul>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
